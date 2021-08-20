@@ -41,42 +41,24 @@ class InvoiceSerializer(serializers.ModelSerializer):
         return invoice
 
     def update(self, instance, validated_data):
-            instance.number = validated_data.get('number', instance.number)
-            instance.date = validated_data.get('date', instance.date)
-            instance.company_id = validated_data.get('company_id', instance.company_id)
-            instance.place = validated_data.get('place', instance.place)
-            instance.products
-
-            #prod_dict = validated_data.get('products', instance.products)
-            #prod_instances = []
-            #for dict in prod_dict:
-            #    prod_instance = Product(name=dict['name'], 
-            #                        quantity=dict['quantity'], 
-            #                        measure=dict['measure'],
-            #                        unit_price=dict['unit_price'],
-            #                        value=dict['value'])
-
-                #prod_instances.append(prod_instance)
-            
-            invoice_data = validated_data.pop('products')
-            tax_data = validated_data.pop('tax')
-            invoice = Invoice.objects.create(**validated_data)
-            Tax.objects.create(invoice=invoice, **tax_data)
-
-            for product_data in invoice_data:
-                instance.products.set([Product.objects.create(invoice=invoice, **product_data)])
-                
-            #instance.products.set(prod_instances)
-
-            #tax_dict = validated_data.get('tax', instance.tax)
-            #tax_instance = Tax(tax_base=tax_dict['tax_base'], 
-            #                    tax_rate=tax_dict['tax_rate'], 
-            #                    payment_amount=tax_dict['payment_amount'])
-                                
-            #instance.tax = tax_instance
-            #instance.save()
-
-            return instance
+        
+        products_data = validated_data.pop('products')
+        products = list((instance.products).all())
+        instance.number = validated_data.get('number', instance.number)
+        instance.date = validated_data.get('date', instance.date)
+        instance.company_id = validated_data.get('company_id', instance.company_id)
+        instance.place = validated_data.get('place', instance.place)
+        instance.save()
+        for product_data in products_data:
+            product = products.pop(0)
+            product.name = product_data.get('name', product.name)
+            product.quantity = product_data.get('quantity', product.quantity)
+            product.measure = product_data.get('measure', product.measure)
+            product.unit_price = product_data.get('unit_price', product.unit_price)
+            product.value = product_data.get('value', product.value)
+            product.save()
+        
+        return instance
 
 
         
