@@ -2,4 +2,4 @@ __pycache__/
 .python-version
 static_collected/
 *.sqlite3
-.vs_code/
+.vscode/
