@@ -9,14 +9,20 @@ class InvoiceForm(forms.Form):
     company_city = forms.CharField()
     company_address = forms.CharField()
     company_manager = forms.CharField()
-    place = forms.CharField(required=False, initial='София')
+    place = forms.CharField()
     product_name = forms.CharField()
-    quantity = forms.NumberInput()
+    quantity = forms.FloatField()
     measure = forms.CharField()
     unit_price = forms.FloatField()
     value = forms.FloatField()
 
-    class Meta:
-        exclude = ('product_name', 'quantity', 'measure', 'unit_price', 'value')
+    def __init__(self, *args, **kwargs):
+        super(InvoiceForm, self).__init__(*args, **kwargs)
+        self.fields['product_name'].required = False
+        self.fields['quantity'].required = False
+        self.fields['measure'].required = False
+        self.fields['unit_price'].required = False
+        self.fields['value'].required = False
+
 
 

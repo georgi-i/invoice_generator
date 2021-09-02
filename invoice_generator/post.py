@@ -1,5 +1,7 @@
 from requests import get
 from re import search, DOTALL
+
+from rest_framework import serializers
 from .models import Invoice
 from .serializers import InvoiceSerializer
 
@@ -43,19 +45,31 @@ def handle_request(request, data):
                           "value": float(data['value'])}
     elif "delete_product" in data:
         try:
-            del_index = int(request.POST['delete_product'][-1])
-            invoice = Invoice.objects.filter(invoice_num=invoice_num)
+            del_index = int(request.POST['delete_product'][-1]) - 1
+            invoice = Invoice.objects.get(invoice_num=invoice_num)
             serializer = InvoiceSerializer(invoice)
             del serializer.data['products'][del_index]
-            if serializer.is_valid():
-                serializer.save()
+            serializer.update(invoice, serializer.data)
+            
+            company_data = [ data['company_name'], 
+                     data['company_city'], 
+                     data['company_address'], 
+                     data['company_manager'] ]
+
+            return { 'products': serializer.data['products'],
+                    'invoice_num': invoice_num, 
+                    'date': data['date'],
+                    'company_id': company_id,
+                    'company_data': company_data,
+                    'place': data['place'] } 
         except:
             pass
+    
     try:
         invoice = Invoice.objects.get(invoice_num=invoice_num)
         serializer = InvoiceSerializer(invoice)
         serializer.data['products'].append(products)
-        invoice_data = serializer.data
+        serializer.update(invoice, serializer.data)
     except:  
         invoice_data = {
                 "invoice_num": invoice_num,
@@ -69,14 +83,17 @@ def handle_request(request, data):
             		"payment_amount": 0.0
             	}
             }
-        invoice_data['products'].append(products)
-        
-    serializer = InvoiceSerializer(data = invoice_data)
-    if serializer.is_valid():
-        serializer.save()
+        invoice_data['products'].append(products) 
+        serializer = InvoiceSerializer(data = invoice_data)
+        if serializer.is_valid():
+            serializer.save()
+
     products = serializer.data['products']
-    company_data = check_company_id(request)
-    company_data[3] = request.POST['company_manager']
+    company_data = [ data['company_name'], 
+                     data['company_city'], 
+                     data['company_address'], 
+                     data['company_manager'] ]
+
     return { 'products': products, 
             'invoice_num': invoice_num, 
             'date': data['date'],
