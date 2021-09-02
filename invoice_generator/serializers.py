@@ -24,9 +24,10 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Invoice
-        fields = ('number', 'date', 'company_id', 'place', 'products', 'tax')
+        fields = ('invoice_num', 'date', 'company_id', 'company_name', 'company_city', 
+                    'company_address', 'company_manager' ,'place', 'products', 'tax')
 
-    
+
     def create(self, validated_data):
 
         invoice_data = validated_data.pop('products')
@@ -41,10 +42,9 @@ class InvoiceSerializer(serializers.ModelSerializer):
         return invoice
 
     def update(self, instance, validated_data):
-        
         products_data = validated_data.pop('products')
         products = list((instance.products).all())
-        instance.number = validated_data.get('number', instance.number)
+        instance.invoice_num = validated_data.get('invoice_num', instance.invoice_num)
         instance.date = validated_data.get('date', instance.date)
         instance.company_id = validated_data.get('company_id', instance.company_id)
         instance.place = validated_data.get('place', instance.place)

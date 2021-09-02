@@ -1,0 +1,181 @@
+
+html {
+    background-color: #166d3b;
+    background-image: linear-gradient(147deg, #166d3b 0%, #000000 74%);
+}
+
+.invoice_data {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 7px;
+    grid-auto-rows: 90px;
+    grid-template-areas:
+    "a b c d . ."
+    "f ga gb gc gd ."
+    "k l m n o ."
+    "p q r s t e"
+    "u v w x y ."
+    "z z z z z z";
+    align-items: start;
+}
+
+#logo {
+  position: relative;
+}
+
+.info_date, .info_num, .info_company_id, .info_place, .info_company_name, .info_company_city, .info_company_address, 
+.info_company_manager, .info_product_name, .info_quantity, .info_measure, .info_unit_price, .info_value {
+    color: white;
+    font-family: fantasy;
+    font-size: large;
+    display: grid;
+    text-align: center;
+}
+
+.info_date, input[type="date"] {
+    grid-area: a;
+}
+
+.info_num, .invoice_num {
+    grid-area: b;
+}
+
+.info_company_id, .company_id {
+    grid-area: f;
+}
+
+.info_place, .place {
+    grid-area: c;
+}
+
+
+.info_company_name, .company_name {
+    grid-area: ga;
+}
+
+.info_company_city, .company_city {
+    grid-area: gb;
+}
+
+.info_company_address, .company_address {
+    grid-area: gc;
+}
+
+.info_company_manager, .company_manager {
+    grid-area: gd;
+}
+
+.info_product_name, .product_name {
+    grid-area: p;
+}
+
+.info_quantity, .quantity {
+    grid-area: q;
+}
+
+.info_measure, .measure {
+    grid-area: r;
+}
+
+.info_unit_price, .unit_price {
+    grid-area: s;
+}
+
+.info_value, .value {
+    grid-area: t;
+}
+
+
+input[type="date"], .invoice_num, .company_id, .place, .company_name, .company_city, .company_address,
+.company_manager,.product_name, .quantity, .measure, .unit_price, .value {
+    align-self: flex-end;
+    color: white;
+    margin: 0px 0px 0px 7px;
+    font-size: large;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: auto;
+    background-color: #166d3b;
+    background-image: linear-gradient(147deg, #000000 0%, #166d3b 74%);
+    border-radius: 40px;
+    box-sizing: border-box;
+    z-index: 2;
+    text-align: center;
+    height: 45%;
+}
+
+
+.invoice_submit, .add_product ,.check_company_id {
+    align-self: flex-start;
+    background-color: #166d3b;
+    background-image: linear-gradient(147deg, #166d3b 0%, #000000 74%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 40px;
+    box-sizing: border-box;
+    color: #00a84f;
+    height: auto;
+    font-size: 1.4em;
+    margin: 0px 0px 0px 30px;
+    text-decoration: none;
+    width: 12em;
+    z-index: 2;
+    height: 45%;
+  }
+
+.delete_product {
+  display: inline;
+  background-color: #166d3b;
+  background-image: linear-gradient(147deg, #166d3b 0%, #000000 74%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 40px;
+  box-sizing: border-box;
+  color: #00a84f;
+  font-size: 1em;
+}
+
+.invoice_submit:hover, .add_product:hover, .delete_product:hover, .check_company_id:hover {
+  color: #fff;
+}
+
+.invoice_submit {
+    grid-area: d;
+}
+
+.check_company_id {
+    grid-area: k;
+}
+
+.add_product {
+    grid-area: y;
+}
+
+#products {
+    max-width: 93%;
+    grid-area: z;
+    padding: 0;
+}
+
+#products li {
+    list-style: none;
+    display: inline;
+    
+}
+
+li input[type="text"] {
+    color: white;
+    margin: 0px 0px 10px 30px;
+    font-size: large;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 14em;
+    background-color: #166d3b;
+    background-image: linear-gradient(147deg, #000000 0%, #166d3b 74%);
+    border-radius: 40px;
+    box-sizing: border-box;
+    z-index: 2;
+    text-align: center;
+    height: 45%;
+}
+
+
+  
+
+

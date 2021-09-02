@@ -1,0 +1,46 @@
+{% extends 'invoice_generator/home.html' %}
+
+{% block content %}
+<div class="form-wrapper">
+<form action="" method="POST" class="invoice_data">
+    {% csrf_token %}
+    <p class="info_date">Дата на издаване:</p>
+    <p class="info_num">№ на фактура:</p>
+    <input type="date" name="date" value="{{ date }}"/>
+    <input type="number" class="invoice_num" name="invoice_num" value="{{ invoice_num }}"/>
+    <input type="submit" class="invoice_submit" value="Запази фактурата" name="invoice_submit"/>
+    <p class="info_company_id">ЕИК:</p>
+    <input type="number" class="company_id" name="company_id" value="{{ company_id }}"/>
+    <p class="info_place">Място на сделката:</p>
+    <input type="text" class="place" name="place" value="{{ place }}"/>
+    <p class="info_company_name">Име на компанията:</p>
+    <input type="text" class="company_name" name="company_name" value="{{ company_data.0 }}"/>
+    <p class="info_company_city">Град:</p>
+    <input type="text" class="company_city" name="company_city" value="{{ company_data.1 }}"/>
+    <p class="info_company_address">Адрес:</p>
+    <input type="text" class="company_address" name="company_address" value="{{ company_data.2 }}"/>
+    <p class="info_company_manager">Мол:</p>
+    <input type="text" class="company_manager" name="company_manager" value="{{ company_data.3 }}"/>
+    <input type="submit" class="check_company_id" value="Провери компанията" name="check_company_id"/>
+    <p class="info_product_name">Наименование на стоките:</p>
+    <input type="text" class="product_name" name="product_name"/>
+    <p class="info_quantity">Количество:</p>
+    <input type="number" class="quantity" name="quantity"/>
+    <p class="info_measure">Мярка:</p>
+    <input type="text" class="measure" name="measure"/>
+    <p class="info_unit_price">Еднинична цена:</p>
+    <input type="number" class="unit_price" name="unit_price"/>
+    <p class="info_value">Стойност:</p>
+    <input type="number" class="value" name="value"/>
+    <input type="submit" class="add_product" value="Добави стоката" name="add_product"/>
+    <ul id="products"> 
+        {% for odict in products %}
+            {% for v in odict.values %}
+                <li><input type="text" value="{{ v }}"/></li>
+            {% endfor %}
+            <li><input type="submit" class="delete_product" value="Изтрий {{ forloop.counter }}" name="delete_product"/></li>
+        {% endfor %} 
+        </ul> 
+</form>
+</div>  
+{% endblock %}

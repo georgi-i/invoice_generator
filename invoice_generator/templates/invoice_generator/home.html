@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'invoice_generator/site.css' %}"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'invoice_generator/app.js' %}"></script>   
+</head>
+<body>
+    <div id="logo">
+        <img src="../../static/invoice_generator/intelik.png"> 
+    </div>
+    {% block content %}
+          
+    {% endblock %}
+</body>
+</html>
