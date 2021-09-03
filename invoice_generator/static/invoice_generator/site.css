@@ -10,7 +10,7 @@ html {
     gap: 7px;
     grid-auto-rows: 90px;
     grid-template-areas:
-    "a b c d . ."
+    "a b c d da ."
     "f ga gb gc gd ."
     "k l m n o ."
     "p q r s t e"
@@ -137,7 +137,7 @@ input[type="date"], .invoice_num, .company_id, .place, .company_name, .company_c
 }
 
 .invoice_submit {
-    grid-area: d;
+    grid-area: da;
 }
 
 .check_company_id {
