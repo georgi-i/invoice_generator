@@ -50,7 +50,9 @@ class InvoiceSerializer(serializers.ModelSerializer):
         instance.place = validated_data.get('place', instance.place)
         instance.save()
         for product_data in products_data:
-            product = products.pop(0)
+            product = Product(invoice_id=instance.id)
+            if len(products) > 0:
+                product = products.pop(0)
             product.name = product_data.get('name', product.name)
             product.quantity = product_data.get('quantity', product.quantity)
             product.measure = product_data.get('measure', product.measure)
@@ -58,6 +60,8 @@ class InvoiceSerializer(serializers.ModelSerializer):
             product.value = product_data.get('value', product.value)
             product.save()
         
+        instance.save()
+
         return instance
 
 
