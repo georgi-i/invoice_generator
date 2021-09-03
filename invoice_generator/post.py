@@ -1,7 +1,6 @@
 from requests import get
 from re import search, DOTALL
 
-from rest_framework import serializers
 from .models import Invoice
 from .serializers import InvoiceSerializer
 

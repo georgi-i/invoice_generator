@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from invoice_generator import views
-from invoice_generator.views import HomeView
 
 router = routers.DefaultRouter()
 router.register(r'invoices', views.InvoiceViewSet)

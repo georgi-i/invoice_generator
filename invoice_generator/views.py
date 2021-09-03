@@ -43,6 +43,10 @@ class HomeView(TemplateView):
 
 
     
+class SearchView(TemplateView):
+
+    template_name = "invoice_generator/search.html"
+
 
 
             
