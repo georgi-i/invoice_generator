@@ -33,7 +33,11 @@ def check_company_id(request):
 
 def handle_request(request, data):
     
-    products = {}      
+    products = {}
+    try:
+        tax_value = float(data['value'])
+    except:
+        tax_value = 0.0   
     invoice_num = int(data['invoice_num'])
     company_id = int(data['company_id'])
     if "add_product" in data: 
@@ -41,12 +45,15 @@ def handle_request(request, data):
                           "quantity": int(data['quantity']), 
                           "measure": data['measure'], 
                           "unit_price": float(data['unit_price']), 
-                          "value": float(data['value'])}
+                          "value": tax_value }
     elif "delete_product" in data:
         try:
             del_index = int(request.POST['delete_product'][-1]) - 1
             invoice = Invoice.objects.get(invoice_num=invoice_num)
             serializer = InvoiceSerializer(invoice)
+            serializer.data['tax']['tax_base'] -= tax_value
+            serializer.data['tax']['tax_rate'] -= tax_value * 0.2
+            serializer.data['tax']['payment_amount'] -= tax_value * 1.2
             del serializer.data['products'][del_index]
             serializer.update(invoice, serializer.data)
             
@@ -55,12 +62,17 @@ def handle_request(request, data):
                      data['company_address'], 
                      data['company_manager'] ]
 
+            tax = [ f'{serializer.data["tax"]["tax_base"]:.2f}', 
+                    f'{serializer.data["tax"]["tax_rate"]:.2f}', 
+                    f'{serializer.data["tax"]["payment_amount"]:.2f}' ]
+
             return { 'products': serializer.data['products'],
                     'invoice_num': invoice_num, 
                     'date': data['date'],
                     'company_id': company_id,
                     'company_data': company_data,
-                    'place': data['place'] } 
+                    'place': data['place'],
+                    'tax': tax } 
         except:
             pass
     
@@ -68,18 +80,25 @@ def handle_request(request, data):
         invoice = Invoice.objects.get(invoice_num=invoice_num)
         serializer = InvoiceSerializer(invoice)
         serializer.data['products'].append(products)
+        serializer.data['tax']['tax_base'] += tax_value
+        serializer.data['tax']['tax_rate'] += tax_value * 0.2
+        serializer.data['tax']['payment_amount'] += tax_value * 1.2
         serializer.update(invoice, serializer.data)
     except:  
         invoice_data = {
                 "invoice_num": invoice_num,
             	"date": data['date'],
             	"company_id": company_id,
+                "company_name": data['company_name'],
+                "company_city": data['company_city'],
+                "company_address": data['company_address'],
+                "company_manager": data['company_manager'],
             	"place": data['place'],
             	"products": [],
                 "tax": {
-            		"tax_base": 0.0,
-            		"tax_rate": 0.0,
-            		"payment_amount": 0.0
+            		"tax_base": tax_value,
+            		"tax_rate": tax_value * 0.2,
+            		"payment_amount": tax_value * 1.2
             	}
             }
         invoice_data['products'].append(products) 
@@ -93,9 +112,14 @@ def handle_request(request, data):
                      data['company_address'], 
                      data['company_manager'] ]
 
+    tax = [ f'{serializer.data["tax"]["tax_base"]:.2f}', 
+            f'{serializer.data["tax"]["tax_rate"]:.2f}', 
+            f'{serializer.data["tax"]["payment_amount"]:.2f}' ]
+
     return { 'products': products, 
             'invoice_num': invoice_num, 
             'date': data['date'],
             'company_id': company_id,
             'company_data': company_data,
-            'place': data['place'] }
+            'place': data['place'], 
+            'tax': tax }

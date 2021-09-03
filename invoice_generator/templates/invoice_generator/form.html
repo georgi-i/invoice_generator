@@ -42,6 +42,12 @@
             <li><input type="submit" class="delete_product" value="Изтрий {{ forloop.counter }}" name="delete_product"/></li>
         {% endfor %} 
         </ul> 
+    <p class="tax_base">Данъчна основа:</p>
+    <p class="tax_base_value">{{ tax.0 }}</p>
+    <p class="tax_rate">Размер на данъка:</p>
+    <p class="tax_rate_value">{{ tax.1 }}</p>
+    <p class="payment_amount">Сума за плащане:</p>
+    <p class="payment_amount_value">{{ tax.2 }}</p>
 </form>
 </div>  
 {% endblock %}

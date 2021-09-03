@@ -38,7 +38,9 @@ class HomeView(TemplateView):
                                                                     'date': data['date'],
                                                                     'company_id': data['company_id'],
                                                                     'company_data': data['company_data'],
-                                                                    'place': data['place']})
+                                                                    'place': data['place'],
+                                                                    'tax': data['tax'] })
+        
         return render(request, "invoice_generator/form.html")
 
 

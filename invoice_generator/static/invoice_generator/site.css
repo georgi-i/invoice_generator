@@ -13,7 +13,7 @@ html {
     color: #00a84f;
     text-align: center;
     text-decoration: none;
-    font-size: 1.6em;
+    font-size: 1.5em;
     margin: 30px 0px 22px 10px;
     border: double;
     border-radius: 1rem;
@@ -34,9 +34,9 @@ html {
     grid-template-areas:
     "a b c d da ."
     "f ga gb gc gd ."
-    "k l m n o ."
+    "k l m n o ea"
     "p q r s t e"
-    "u v w x y ."
+    "u v w x y eb"
     "z z z z z z";
     align-items: start;
 }
@@ -69,7 +69,6 @@ html {
 .info_place, .place {
     grid-area: c;
 }
-
 
 .info_company_name, .company_name {
     grid-area: ga;
@@ -141,7 +140,13 @@ input[type="date"], .invoice_num, .company_id, .place, .company_name, .company_c
     width: 12em;
     z-index: 2;
     height: 45%;
-  }
+}
+
+.invoice_submit {
+    border: double;
+    border-radius: 1rem;
+    border-width: 6px;
+}
 
 .delete_product {
   display: inline;
@@ -195,9 +200,33 @@ li input[type="text"] {
     z-index: 2;
     text-align: center;
     height: 45%;
+    margin-right: 30px;
 }
 
+.tax_base, .tax_rate, .payment_amount {
+    color: white;
+    display: grid;
+    margin-left: 65px;
+    font-weight: 900;
+    font-size: medium;
+}
 
+.tax_base_value, .tax_rate_value, .payment_amount_value {
+    color: greenyellow;
+    display: grid;
+    margin-left: 210px;
+    font-weight: 1000;
+    font-size: medium;
+}
+
+.tax_base, .tax_base_value {
+    grid-area: ea;
+}
   
+.tax_rate, .tax_rate_value {
+    grid-area: e;
+}
 
-
+.payment_amount, .payment_amount_value {
+    grid-area: eb;
+}
