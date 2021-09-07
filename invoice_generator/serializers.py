@@ -43,16 +43,26 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         products_data = validated_data.pop('products')
-        products = list((instance.products).all())
+        instance.products.all().delete()
         instance.invoice_num = validated_data.get('invoice_num', instance.invoice_num)
         instance.date = validated_data.get('date', instance.date)
         instance.company_id = validated_data.get('company_id', instance.company_id)
+        instance.company_name = validated_data.get('company_name', instance.company_name)
+        instance.company_city = validated_data.get('company_city', instance.company_city)
+        instance.company_address = validated_data.get('company_address', instance.company_address)
+        instance.company_manager = validated_data.get('company_manager', instance.company_manager)
         instance.place = validated_data.get('place', instance.place)
+        tax_data = validated_data.get('tax')
+        tax = Tax.objects.get(invoice_id=instance.id, invoice=instance)
+        tax.tax_base = tax_data.get('tax_base', tax.tax_base)
+        tax.tax_rate = tax_data.get('tax_rate', tax.tax_rate)
+        tax.payment_amount = tax_data.get('payment_amount', tax.payment_amount)
+        tax.save()
+
         instance.save()
+
         for product_data in products_data:
             product = Product(invoice_id=instance.id)
-            if len(products) > 0:
-                product = products.pop(0)
             product.name = product_data.get('name', product.name)
             product.quantity = product_data.get('quantity', product.quantity)
             product.measure = product_data.get('measure', product.measure)

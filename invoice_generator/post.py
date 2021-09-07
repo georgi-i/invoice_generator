@@ -51,10 +51,14 @@ def handle_request(request, data):
             del_index = int(request.POST['delete_product'][-1]) - 1
             invoice = Invoice.objects.get(invoice_num=invoice_num)
             serializer = InvoiceSerializer(invoice)
-            serializer.data['tax']['tax_base'] -= tax_value
-            serializer.data['tax']['tax_rate'] -= tax_value * 0.2
-            serializer.data['tax']['payment_amount'] -= tax_value * 1.2
+            current_product_val = serializer.data['products'][del_index]['value']
+            current_tax_base = float(serializer.data['tax']['tax_base'])
+            serializer.data['tax']['tax_base'] = current_tax_base - current_product_val
+            serializer.data['tax']['tax_rate'] = (current_tax_base * 0.2) - (current_product_val * 0.2)
+            serializer.data['tax']['payment_amount'] = (current_tax_base * 1.2) - (current_product_val * 1.2)
+             
             del serializer.data['products'][del_index]
+                
             serializer.update(invoice, serializer.data)
             
             company_data = [ data['company_name'], 
@@ -80,9 +84,10 @@ def handle_request(request, data):
         invoice = Invoice.objects.get(invoice_num=invoice_num)
         serializer = InvoiceSerializer(invoice)
         serializer.data['products'].append(products)
-        serializer.data['tax']['tax_base'] += tax_value
-        serializer.data['tax']['tax_rate'] += tax_value * 0.2
-        serializer.data['tax']['payment_amount'] += tax_value * 1.2
+        current_val = float(serializer.data['tax']['tax_base'])
+        serializer.data['tax']['tax_base'] = current_val + tax_value
+        serializer.data['tax']['tax_rate'] = (current_val * 0.2) + (tax_value * 0.2)
+        serializer.data['tax']['payment_amount'] = (current_val * 1.2) + (tax_value * 1.2)
         serializer.update(invoice, serializer.data)
     except:  
         invoice_data = {
