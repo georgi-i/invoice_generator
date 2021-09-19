@@ -3,6 +3,7 @@ from re import search, DOTALL
 
 from .models import Invoice
 from .serializers import InvoiceSerializer
+from .forms import SearchForm
 
 
 def check_company_id(request):
@@ -128,3 +129,23 @@ def handle_request(request, data):
             'company_data': company_data,
             'place': data['place'], 
             'tax': tax }
+
+
+def invoice_search(data):
+    keyword = data['keyword']
+    invoices_found = ''
+    try:
+        id = int(keyword)
+        invoices_found = Invoice.objects.filter(company_id = id)
+    except:
+        try:
+            invoices_found = Invoice.objects.filter(name = keyword)
+        except:
+            return False
+    
+    invoice_choices = []
+    for invoice in invoices_found:
+        invoice_choices.append(f'{invoice.date} {invoice.company_name} {invoice.place}')
+
+    
+    return {"invoices_found": invoice_choices}

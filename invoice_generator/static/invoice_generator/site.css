@@ -46,7 +46,7 @@ html {
 }
 
 .info_date, .info_num, .info_company_id, .info_place, .info_company_name, .info_company_city, .info_company_address, 
-.info_company_manager, .info_product_name, .info_quantity, .info_measure, .info_unit_price, .info_value {
+.info_company_manager, .info_product_name, .info_quantity, .info_measure, .info_unit_price, .info_value, .info_search, label {
     color: white;
     font-family: fantasy;
     font-size: large;
@@ -108,7 +108,7 @@ html {
 
 
 input[type="date"], .invoice_num, .company_id, .place, .company_name, .company_city, .company_address,
-.company_manager,.product_name, .quantity, .measure, .unit_price, .value {
+.company_manager,.product_name, .quantity, .measure, .unit_price, .value, input[name="keyword"] {
     align-self: flex-end;
     color: white;
     margin: 0px 0px 0px 7px;
@@ -125,7 +125,7 @@ input[type="date"], .invoice_num, .company_id, .place, .company_name, .company_c
 }
 
 
-.invoice_submit, .add_product, .check_company_id {
+.invoice_submit, .add_product, .check_company_id, .load_invoice {
     align-self: flex-start;
     background-color: #166d3b;
     background-image: linear-gradient(147deg, #166d3b 0%, #000000 74%);
@@ -159,7 +159,7 @@ input[type="date"], .invoice_num, .company_id, .place, .company_name, .company_c
   font-size: 1em;
 }
 
-.invoice_submit:hover, .add_product:hover, .delete_product:hover, .check_company_id:hover {
+.invoice_submit:hover, .add_product:hover, .delete_product:hover, .check_company_id:hover, .load_invoice:hover {
   color: #fff;
 }
 
@@ -230,3 +230,66 @@ li input[type="text"] {
 .payment_amount, .payment_amount_value {
     grid-area: eb;
 }
+
+.invoice_search {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    grid-auto-rows: 90px;
+    grid-template-areas:
+    "aa aa cc dd ee ."
+    "ff gg hh ii kk ."
+    "ll ll mm pp qq ."
+    "ss tt tt tt tt .";
+    align-items: start;
+}
+
+.info_search {
+    grid-area: aa;
+}
+
+input[name="keyword"] {
+    grid-area: aa;
+    width: 30em;
+    height: 2.5em;
+}
+
+
+#invoices_found {
+    grid-area: ll;
+    background-color: #166d3b;
+    background-image: linear-gradient(147deg, #166d3b 0%, #000000 74%);
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    width: 30em;
+    height: 4em;
+    padding: 0 4em 0 1em;
+    color: white;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+#invoices_found option, .found, .not_found {
+    color: white;
+    font-size: large;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+
+.load_invoice {
+    grid-area: mm;
+    float: left;
+    margin-left: 0px;
+}
+
+.found, .not_found {
+    grid-area: ff;
+}
+
+
+

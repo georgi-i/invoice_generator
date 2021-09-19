@@ -2,6 +2,22 @@
 
 {% block content %}
 <div class="search-wrapper">
-
+    <form action="" method="POST" class="invoice_search">
+        {% csrf_token %}
+        <p class="info_search">Намери фактура по ключова дума или ЕИК:</p>
+        <input type="text" name="keyword" value=""/>
+        {% if invoices_found %}
+            <p class="found">{{ invoices_found|length }} намерени фактури</p> 
+        {% else %}
+            <p class="not_found">Няма намерени фактури</p>
+        {% endif %}
+        <select name="invoices_found" id="invoices_found">
+            <option selected value="0">Избери фактура</option>
+            {% for invoice in invoices_found %}
+                <option value="{{ forloop.counter }}"> {{ invoice }} </option>
+            {% endfor %}
+        </select> 
+        <input type='submit' class="load_invoice" value='Зареди фактурата'>
+    </form> 
 </div>  
 {% endblock %}

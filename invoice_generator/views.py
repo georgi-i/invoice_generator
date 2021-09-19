@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from django.views.generic import TemplateView
-from .forms import InvoiceForm
+from .forms import InvoiceForm, SearchForm
 from django.shortcuts import render
-from .post import check_company_id, handle_request
+from .post import check_company_id, handle_request, invoice_search
 
 
 from invoice_generator.serializers import InvoiceSerializer
@@ -48,6 +48,18 @@ class HomeView(TemplateView):
 class SearchView(TemplateView):
 
     template_name = "invoice_generator/search.html"
+    form_class = SearchForm
+
+    def post(self, request):
+
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            data = invoice_search(form.data)
+
+            if data is not False:
+                return render(request, "invoice_generator/search.html", {"invoices_found": data['invoices_found'] })
+
+            return render(request, "invoice_generator/search.html")
 
 
 

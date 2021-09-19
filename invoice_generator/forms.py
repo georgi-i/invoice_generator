@@ -1,4 +1,3 @@
-from invoice_generator.models import Invoice
 from django import forms
 
 class InvoiceForm(forms.Form):
@@ -24,5 +23,6 @@ class InvoiceForm(forms.Form):
         self.fields['unit_price'].required = False
         self.fields['value'].required = False
 
-
+class SearchForm(forms.Form):
+    keyword = forms.CharField()
 
